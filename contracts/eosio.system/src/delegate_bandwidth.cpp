@@ -8,6 +8,7 @@
 #include <eosio.system/eosio.system.hpp>
 #include <eosio.token/eosio.token.hpp>
 
+
 namespace eosiosystem {
 
    using eosio::asset;
@@ -43,6 +44,11 @@ namespace eosiosystem {
    void system_contract::buyram( const name& payer, const name& receiver, const asset& quant )
    {
       require_auth( payer );
+      check(
+         has_auth(get_self()) || 
+         (zswcore::get_zsw_perm_bits(ZSW_PERMS_CORE_SCOPE, payer) & ZSW_CORE_PERMS_GENERAL_RESOURCES) != 0,
+         "ZhongShuWen: User not allowed to perform general resource transactions"
+      );
       update_ram_supply();
 
       check( quant.symbol == core_symbol(), "must buy ram with core token" );
@@ -110,6 +116,11 @@ namespace eosiosystem {
     */
    void system_contract::sellram( const name& account, int64_t bytes ) {
       require_auth( account );
+      check(
+         has_auth(get_self()) || 
+         (zswcore::get_zsw_perm_bits(ZSW_PERMS_CORE_SCOPE, account) & ZSW_CORE_PERMS_GENERAL_RESOURCES) != 0,
+         "ZhongShuWen: User not allowed to perform general resource transactions"
+      );
       update_ram_supply();
 
       check( bytes > 0, "cannot sell negative byte" );
@@ -170,6 +181,11 @@ namespace eosiosystem {
                                    const asset& stake_net_delta, const asset& stake_cpu_delta, bool transfer )
    {
       require_auth( from );
+      check(
+         has_auth(get_self()) || 
+         (zswcore::get_zsw_perm_bits(ZSW_PERMS_CORE_SCOPE, from) & ZSW_CORE_PERMS_GENERAL_RESOURCES) != 0,
+         "ZhongShuWen: User not allowed to perform general resource transactions"
+      );
       check( stake_net_delta.amount != 0 || stake_cpu_delta.amount != 0, "should stake non-zero amount" );
       check( std::abs( (stake_net_delta + stake_cpu_delta).amount )
              >= std::max( std::abs( stake_net_delta.amount ), std::abs( stake_cpu_delta.amount ) ),
@@ -373,6 +389,12 @@ namespace eosiosystem {
                                      const asset& stake_net_quantity,
                                      const asset& stake_cpu_quantity, bool transfer )
    {
+
+      check(
+         has_auth(get_self()) || 
+         (zswcore::get_zsw_perm_bits(ZSW_PERMS_CORE_SCOPE, from) & ZSW_CORE_PERMS_GENERAL_RESOURCES) != 0,
+         "ZhongShuWen: User not allowed to perform general resource transactions"
+      );
       asset zero_asset( 0, core_symbol() );
       check( stake_cpu_quantity >= zero_asset, "must stake a positive amount" );
       check( stake_net_quantity >= zero_asset, "must stake a positive amount" );
@@ -385,6 +407,11 @@ namespace eosiosystem {
    void system_contract::undelegatebw( const name& from, const name& receiver,
                                        const asset& unstake_net_quantity, const asset& unstake_cpu_quantity )
    {
+      check(
+         has_auth(get_self()) || 
+         (zswcore::get_zsw_perm_bits(ZSW_PERMS_CORE_SCOPE, from) & ZSW_CORE_PERMS_GENERAL_RESOURCES) != 0,
+         "ZhongShuWen: User not allowed to perform general resource transactions"
+      );
       asset zero_asset( 0, core_symbol() );
       check( unstake_cpu_quantity >= zero_asset, "must unstake a positive amount" );
       check( unstake_net_quantity >= zero_asset, "must unstake a positive amount" );
@@ -398,6 +425,11 @@ namespace eosiosystem {
 
    void system_contract::refund( const name& owner ) {
       require_auth( owner );
+      check(
+         has_auth(get_self()) || 
+         (zswcore::get_zsw_perm_bits(ZSW_PERMS_CORE_SCOPE, owner) & ZSW_CORE_PERMS_GENERAL_RESOURCES) != 0,
+         "ZhongShuWen: User not allowed to perform general resource transactions"
+      );
 
       refunds_table refunds_tbl( get_self(), owner.value );
       auto req = refunds_tbl.find( owner.value );

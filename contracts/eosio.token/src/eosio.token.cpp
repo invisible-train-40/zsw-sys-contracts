@@ -1,5 +1,6 @@
 #include <eosio.token/eosio.token.hpp>
 
+#include <zswinterfaces/zsw.perms-interface.hpp>
 namespace eosio {
 
 void token::create( const name&   issuer,
@@ -94,6 +95,14 @@ void token::transfer( const name&    from,
     check( quantity.symbol == st.supply.symbol, "symbol precision mismatch" );
     check( memo.size() <= 256, "memo has more than 256 bytes" );
 
+    check(
+        has_auth(get_self()) ||
+        zswcore::can_users_complete_transfer_perm_bits(
+            zswcore::get_zsw_perm_bits(ZSW_PERMS_CORE_SCOPE, from),
+            zswcore::get_zsw_perm_bits(ZSW_PERMS_CORE_SCOPE, to)
+        ),
+        "ZhongShuWen: Compute credits cannot be transferred to other accounts."
+    );
     auto payer = has_auth( to ) ? to : from;
 
     sub_balance( from, quantity );

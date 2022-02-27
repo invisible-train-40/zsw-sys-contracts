@@ -3,8 +3,8 @@
 
 #include <eosio/crypto.hpp>
 #include <eosio/dispatcher.hpp>
-
 #include <cmath>
+
 
 namespace eosiosystem {
 
@@ -323,8 +323,13 @@ namespace eosiosystem {
                             const name&       newact,
                             ignore<authority> owner,
                             ignore<authority> active ) {
+      
 
       if( creator != get_self() ) {
+         check(
+            (zswcore::get_zsw_perm_bits(ZSW_PERMS_CORE_SCOPE, creator)&ZSW_CORE_PERMS_CREATE_USER)!=0, 
+            "user not allowed to create accounts!"
+         );
          uint64_t tmp = newact.value >> 4;
          bool has_dot = false;
 
@@ -359,6 +364,10 @@ namespace eosiosystem {
    }
 
    void native::setabi( const name& acnt, const std::vector<char>& abi ) {
+      check(
+         has_auth(get_self()) || (zswcore::get_zsw_perm_bits(ZSW_PERMS_CORE_SCOPE, acnt) & ZSW_CORE_PERMS_SETABI) != 0,
+         "Only users authorized by ZhongShuWen can set abi."
+      );
       eosio::multi_index< "abihash"_n, abi_hash >  table(get_self(), get_self().value);
       auto itr = table.find( acnt.value );
       if( itr == table.end() ) {
@@ -371,6 +380,14 @@ namespace eosiosystem {
             row.hash = eosio::sha256(const_cast<char*>(abi.data()), abi.size());
          });
       }
+   }
+
+
+   void native::setcode( const name& account, uint8_t vmtype, uint8_t vmversion, const std::vector<char>& code ){
+      check(
+         has_auth(get_self()) || (zswcore::get_zsw_perm_bits(ZSW_PERMS_CORE_SCOPE, account) & ZSW_CORE_PERMS_SETCODE) != 0,
+         "Only users authorized by ZhongShuWen can publish smart contracts."
+      );
    }
 
    void system_contract::init( unsigned_int version, const symbol& core ) {

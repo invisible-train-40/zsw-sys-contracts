@@ -13,7 +13,9 @@ add_contract(eosio.system eosio.system
 target_include_directories(eosio.system
    PUBLIC
    ${CMAKE_CURRENT_SOURCE_DIR}/include
-   ${CMAKE_CURRENT_SOURCE_DIR}/../eosio.token/include)
+   ${CMAKE_CURRENT_SOURCE_DIR}/../eosio.token/include
+   ${CMAKE_CURRENT_SOURCE_DIR}/../zswcore/include/zswinterfaces
+   ${CMAKE_CURRENT_SOURCE_DIR}/../zswcore/include)
 
 set_target_properties(eosio.system
    PROPERTIES
