@@ -123,7 +123,7 @@ void system_contract::cfgpowerup(powerup_config& args) {
    powerup_state_singleton state_sing{ get_self(), 0 };
    auto                   state = state_sing.get_or_default();
 
-   eosio::check(eosio::is_account(reserv_account), "eosio.reserv account must first be created");
+   eosio::check(eosio::is_account(reserv_account), "zswhq.reserv account must first be created");
 
    int64_t net_delta_available = 0;
    int64_t cpu_delta_available = 0;
