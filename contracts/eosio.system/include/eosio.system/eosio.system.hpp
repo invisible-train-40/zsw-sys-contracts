@@ -682,17 +682,17 @@ namespace eosiosystem {
 
       public:
          static constexpr eosio::name active_permission{"active"_n};
-         static constexpr eosio::name token_account{"eosio.token"_n};
-         static constexpr eosio::name ram_account{"eosio.ram"_n};
-         static constexpr eosio::name ramfee_account{"eosio.ramfee"_n};
-         static constexpr eosio::name stake_account{"eosio.stake"_n};
-         static constexpr eosio::name bpay_account{"eosio.bpay"_n};
-         static constexpr eosio::name vpay_account{"eosio.vpay"_n};
-         static constexpr eosio::name names_account{"eosio.names"_n};
-         static constexpr eosio::name saving_account{"eosio.saving"_n};
-         static constexpr eosio::name rex_account{"eosio.rex"_n};
-         static constexpr eosio::name reserv_account{"eosio.reserv"_n};
-         static constexpr eosio::name null_account{"eosio.null"_n};
+         static constexpr eosio::name token_account{"zswhq.token"_n};
+         static constexpr eosio::name ram_account{"zswhq.ram"_n};
+         static constexpr eosio::name ramfee_account{"zswhq.ramfee"_n};
+         static constexpr eosio::name stake_account{"zswhq.stake"_n};
+         static constexpr eosio::name bpay_account{"zswhq.bpay"_n};
+         static constexpr eosio::name vpay_account{"zswhq.vpay"_n};
+         static constexpr eosio::name names_account{"zswhq.names"_n};
+         static constexpr eosio::name saving_account{"zswhq.saving"_n};
+         static constexpr eosio::name rex_account{"zswhq.rex"_n};
+         static constexpr eosio::name reserv_account{"zswhq.reserv"_n};
+         static constexpr eosio::name null_account{"zswhq.null"_n};
          static constexpr symbol ramcore_symbol = symbol(symbol_code("RAMCORE"), 4);
          static constexpr symbol ram_symbol     = symbol(symbol_code("RAM"), 0);
          static constexpr symbol rex_symbol     = symbol(symbol_code("REX"), 4);
@@ -702,7 +702,7 @@ namespace eosiosystem {
 
           // Returns the core symbol by system account name
           // @param system_account - the system account to get the core symbol for.
-         static symbol get_core_symbol( name system_account = "eosio"_n ) {
+         static symbol get_core_symbol( name system_account = "zswhq"_n ) {
             rammarket rm(system_account, system_account.value);
             const static auto sym = get_core_symbol( rm );
             return sym;
