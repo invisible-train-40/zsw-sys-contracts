@@ -17,7 +17,7 @@ include(ExternalProject)
 
 find_package(eosio.cdt)
 
-message(STATUS "Building eosio.contracts v${VERSION_FULL}")
+message(STATUS "Building zsw-sys-contracts v${VERSION_FULL}")
 
 set(EOSIO_CDT_VERSION_MIN "1.7")
 set(EOSIO_CDT_VERSION_SOFT_MAX "1.7")
