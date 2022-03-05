@@ -987,7 +987,7 @@ public:
       {
          producer_names.reserve('z' - 'a' + 1);
          const std::string root("defproducer");
-         for ( char c = 'a'; c < 'a'+21; ++c ) {
+         for ( char c = 'a'; c < 'a'+(5/* BP_NUMBER */); ++c ) {
             producer_names.emplace_back(root + std::string(1, c));
          }
          setup_producer_accounts(producer_names);
@@ -1025,7 +1025,7 @@ public:
       produce_blocks( 250 );
 
       auto producer_keys = control->head_block_state()->active_schedule.producers;
-      BOOST_REQUIRE_EQUAL( 21, producer_keys.size() );
+      BOOST_REQUIRE_EQUAL( 5/* BP_NUMBER */, producer_keys.size() );
       BOOST_REQUIRE_EQUAL( name("defproducera"), producer_keys[0].producer_name );
 
       return producer_names;

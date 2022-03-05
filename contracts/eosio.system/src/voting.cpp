@@ -126,9 +126,9 @@ namespace eosiosystem {
 
       using value_type = std::pair<eosio::producer_authority, uint16_t>;
       std::vector< value_type > top_producers;
-      top_producers.reserve(21);
+      top_producers.reserve(5/* BP_NUMBER */);
 
-      for( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < 21 && 0 < it->total_votes && it->active(); ++it ) {
+      for( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < 5/* BP_NUMBER */ && 0 < it->total_votes && it->active(); ++it ) {
          top_producers.emplace_back(
             eosio::producer_authority{
                .producer_name = it->owner,
